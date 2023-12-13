@@ -72,11 +72,11 @@ public abstract class Menu<P extends NexPlugin<P>> {
     }
 
     public void openNextTick(@NotNull MenuViewer viewer, int page) {
-        this.openNextTick(viewer.getPlayer(), page);
+        this.plugin.getFoliaLib().getImpl().runAtEntity(viewer.getPlayer(), () -> this.open(viewer, page));
     }
 
     public void openNextTick(@NotNull Player player, int page) {
-        this.plugin.runTask(task -> this.open(player, page));
+        this.plugin.getFoliaLib().getImpl().runAtEntity(player, () -> this.open(player, page));
     }
 
     public boolean open(@NotNull MenuViewer viewer, int page) {
@@ -85,7 +85,7 @@ public abstract class Menu<P extends NexPlugin<P>> {
 
     public boolean open(@NotNull Player player, int page) {
         if (!this.canOpen(player, page)) {
-            this.plugin.runTask(task -> player.closeInventory());
+            this.plugin.getFoliaLib().getImpl().runAtEntity(player, () -> player.closeInventory());
             return false;
         }
 

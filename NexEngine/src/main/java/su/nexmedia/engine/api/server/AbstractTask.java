@@ -1,13 +1,14 @@
 package su.nexmedia.engine.api.server;
 
 import org.jetbrains.annotations.NotNull;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import su.nexmedia.engine.NexPlugin;
 
 public abstract class AbstractTask<P extends NexPlugin<P>> {
 
     @NotNull protected final P plugin;
 
-    protected int     taskId;
+    protected WrappedTask taskId = null;
     protected long    interval;
     protected boolean async;
 
@@ -19,7 +20,6 @@ public abstract class AbstractTask<P extends NexPlugin<P>> {
         this.plugin = plugin;
         this.interval = interval;
         this.async = async;
-        this.taskId = -1;
     }
 
     public abstract void action();
@@ -30,23 +30,23 @@ public abstract class AbstractTask<P extends NexPlugin<P>> {
     }
 
     public boolean start() {
-        if (this.taskId >= 0) return false;
+        if (this.taskId != null) return false;
         if (this.interval <= 0L) return false;
 
         if (this.async) {
-            this.taskId = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::action, 1L, interval).getTaskId();
+            this.taskId = plugin.getFoliaLib().getImpl().runTimerAsync(this::action, 1L, interval);
         }
         else {
-            this.taskId = plugin.getServer().getScheduler().runTaskTimer(this.plugin, this::action, 1L, interval).getTaskId();
+            this.taskId = plugin.getFoliaLib().getImpl().runTimer(this::action, 1L, interval);
         }
         return true;
     }
 
     public boolean stop() {
-        if (this.taskId < 0) return false;
+        if (this.taskId == null) return false;
 
-        this.plugin.getServer().getScheduler().cancelTask(this.taskId);
-        this.taskId = -1;
+        taskId.cancel();
+        this.taskId = null;
         return true;
     }
 }

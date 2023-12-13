@@ -5,11 +5,11 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
+import su.nexmedia.engine.utils.Colorizer;
+import su.nexmedia.engine.utils.Reflex;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import su.nexmedia.engine.utils.Colorizer;
-import su.nexmedia.engine.utils.Reflex;
 
 import java.lang.reflect.Method;
 import java.util.*;

@@ -1,8 +1,5 @@
 package su.nexmedia.engine.editor;
 
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import su.nexmedia.engine.NexEngine;
 import su.nexmedia.engine.Version;
 import su.nexmedia.engine.api.editor.InputHandler;
@@ -15,6 +12,10 @@ import su.nexmedia.engine.utils.EngineUtils;
 import su.nexmedia.engine.utils.Pair;
 import su.nexmedia.engine.utils.message.NexComponent;
 import su.nexmedia.engine.utils.message.NexMessage;
+
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;

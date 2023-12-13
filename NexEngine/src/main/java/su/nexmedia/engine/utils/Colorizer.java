@@ -1,8 +1,8 @@
 package su.nexmedia.engine.utils;
 
 import net.md_5.bungee.api.ChatColor;
-import org.jetbrains.annotations.NotNull;
 import su.nexmedia.engine.utils.regex.RegexUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;

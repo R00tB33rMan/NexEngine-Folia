@@ -5,9 +5,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
+import com.tcoded.folialib.FoliaLib;
 import su.nexmedia.engine.api.command.GeneralCommand;
 import su.nexmedia.engine.api.config.JYML;
 import su.nexmedia.engine.api.data.UserDataHolder;
@@ -24,7 +23,6 @@ import su.nexmedia.engine.utils.Reflex;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -37,7 +35,11 @@ public abstract class NexPlugin<P extends NexPlugin<P>> extends JavaPlugin {
     protected CommandManager<P> commandManager;
 
     private Logger  logger;
-    private boolean isEngine;
+	private FoliaLib foliaLib;
+
+    public FoliaLib getFoliaLib() {
+		return foliaLib;
+	}
 
     public final boolean isEngine() {
         return this.isEngine;
@@ -54,6 +56,7 @@ public abstract class NexPlugin<P extends NexPlugin<P>> extends JavaPlugin {
 
     @Override
     public void onEnable() {
+    	foliaLib = new FoliaLib(this);
         long loadTook = System.currentTimeMillis();
         this.logger = this.getLogger();
         this.isEngine = this instanceof NexEngine;
@@ -221,7 +224,8 @@ public abstract class NexPlugin<P extends NexPlugin<P>> extends JavaPlugin {
     }
 
     private void unloadManagers() {
-        this.getServer().getScheduler().cancelTasks(this); // First stop all plugin tasks
+        this.getServer().getGlobalRegionScheduler().cancelTasks(this); // First stop all plugin tasks
+        this.getServer().getAsyncScheduler().cancelTasks(this);
 
         this.disable();
         if (this.commandManager != null) {
@@ -276,40 +280,11 @@ public abstract class NexPlugin<P extends NexPlugin<P>> extends JavaPlugin {
     }
 
     @NotNull
-    public final BukkitScheduler getScheduler() {
-        return this.getServer().getScheduler();
-    }
-
-    @NotNull
     public final PluginManager getPluginManager() {
         return this.getServer().getPluginManager();
     }
 
     public ClassLoader getClazzLoader() {
         return this.getClassLoader();
-    }
-
-    public void runTask(@NotNull Consumer<BukkitTask> consumer) {
-        this.getScheduler().runTask(this, consumer);
-    }
-
-    public void runTaskAsync(@NotNull Consumer<BukkitTask> consumer) {
-        this.getScheduler().runTaskAsynchronously(this, consumer);
-    }
-
-    public void runTaskLater(@NotNull Consumer<BukkitTask> consumer, long delay) {
-        this.getScheduler().runTaskLater(this, consumer, delay);
-    }
-
-    public void runTaskLaterAsync(@NotNull Consumer<BukkitTask> consumer, long delay) {
-        this.getScheduler().runTaskLaterAsynchronously(this, consumer, delay);
-    }
-
-    public void runTaskTimer(@NotNull Consumer<BukkitTask> consumer, long delay, long interval) {
-        this.getScheduler().runTaskTimer(this, consumer, delay, interval);
-    }
-
-    public void runTaskTimerAsync(@NotNull Consumer<BukkitTask> consumer, long delay, long interval) {
-        this.getScheduler().runTaskTimerAsynchronously(this, consumer, delay, interval);
     }
 }

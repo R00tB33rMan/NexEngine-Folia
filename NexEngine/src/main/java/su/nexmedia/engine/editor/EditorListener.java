@@ -18,6 +18,7 @@ import java.util.HashSet;
 
 public class EditorListener extends AbstractListener<NexEngine> {
 
+    @SuppressWarnings("deprecation")
     public EditorListener(@NotNull NexEngine plugin) {
         super(plugin);
     }
@@ -39,7 +40,7 @@ public class EditorListener extends AbstractListener<NexEngine> {
 
         InputWrapper wrapper = new InputWrapper(event);
 
-        this.plugin.runTask(task -> {
+        this.plugin.getFoliaLib().getImpl().runAtEntity(player, () -> {
             if (wrapper.getTextRaw().equalsIgnoreCase(EditorManager.EXIT) || handler.handle(wrapper)) {
                 EditorManager.endEdit(player);
             }
@@ -68,7 +69,7 @@ public class EditorListener extends AbstractListener<NexEngine> {
         AsyncPlayerChatEvent chatEvent = new AsyncPlayerChatEvent(true, player, text, new HashSet<>());
         InputWrapper wrapper = new InputWrapper(chatEvent);
 
-        this.plugin.runTask(task -> {
+        this.plugin.getFoliaLib().getImpl().runAtEntity(player, () -> {
             if (wrapper.getTextRaw().equalsIgnoreCase(EditorManager.EXIT) || handler.handle(wrapper)) {
                 EditorManager.endEdit(player);
             }

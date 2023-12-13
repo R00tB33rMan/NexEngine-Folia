@@ -2,9 +2,9 @@ package su.nexmedia.engine.api.data.connection;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import su.nexmedia.engine.NexPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.nexmedia.engine.NexPlugin;
 
 import java.sql.Connection;
 import java.sql.SQLException;

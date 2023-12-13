@@ -1,9 +1,10 @@
 package su.nexmedia.engine.utils;
 
-import com.google.common.base.Splitter;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.clip.placeholderapi.PlaceholderAPI;
+import su.nexmedia.engine.Version;
+import su.nexmedia.engine.lang.LangManager;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
@@ -13,8 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.nexmedia.engine.Version;
-import su.nexmedia.engine.lang.LangManager;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
@@ -140,15 +139,15 @@ public class ItemUtil {
         }
 
         List<String> loreHas = meta.getLore();
-        //List<String> loreReplaced = new ArrayList<>();
+        List<String> loreReplaced = new ArrayList<>();
         if (loreHas != null) {
             // Should perform much faster
             String single = replacer.apply(String.join("\n", loreHas));
             meta.setLore(StringUtil.stripEmpty(Splitter.on("\n").splitToList(single)));
 
-            //loreHas.replaceAll(replacer);
-            //loreHas.forEach(line -> loreReplaced.addAll(Arrays.asList(line.split("\\n"))));
-            //meta.setLore(StringUtil.stripEmpty(loreReplaced));
+            loreHas.replaceAll(replacer);
+            loreHas.forEach(line -> loreReplaced.addAll(Arrays.asList(line.split("\\n"))));
+            meta.setLore(StringUtil.stripEmpty(loreReplaced));
         }
     }
 
