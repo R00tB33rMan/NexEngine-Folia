@@ -35,6 +35,7 @@ public abstract class NexPlugin<P extends NexPlugin<P>> extends JavaPlugin {
     protected CommandManager<P> commandManager;
 
     private Logger  logger;
+    private boolean isEngine;
 	private FoliaLib foliaLib;
 
     public FoliaLib getFoliaLib() {
